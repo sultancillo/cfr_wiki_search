@@ -1,0 +1,6 @@
+name: Wiki Search Module
+type: module
+description: 'This module provides a search page for wikipedia.'
+package: CFR
+version: 1.0
+core: '8.x'

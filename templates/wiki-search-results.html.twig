@@ -1,0 +1,13 @@
+<div class="wiki-search-form">
+  {{ search_form }}
+</div>
+
+<h2> Search Results for <span class="search-text">{{ search_text }}</span>:</h2>
+<div class="wiki-search-results">
+{% for search_result in results %}
+    {{ search_result }}
+{% endfor %}
+</div>
+<div class="wiki-search-pager">
+  {{ pager }}
+</div>

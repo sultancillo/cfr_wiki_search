@@ -1,0 +1,5 @@
+services:
+  cfr_wiki.path_processor:
+    class: Drupal\cfr_wiki\PathProcessor\WikiSearchPathProcessor
+    tags:
+      - { name: path_processor_inbound, priority: 250 }

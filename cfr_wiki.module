@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function cfr_wiki_theme($existing, $type, $theme, $path) {
+  return [
+    'wiki_search_results' => [
+      'variables' => [
+        'results' => [],
+        'search_form' => [],
+        'search_text' => NULL,
+        'pager' => [],
+      ],
+    ],
+    'wiki_search_result' => [
+      'variables' => [
+        'title' => NULL,
+        'summary' => NULL,
+        'link' => NULL,
+      ],
+    ],
+  ];
+}
