@@ -3,3 +3,6 @@ services:
     class: Drupal\cfr_wiki\PathProcessor\WikiSearchPathProcessor
     tags:
       - { name: path_processor_inbound, priority: 250 }
+  cfr_wiki.client:
+    class: '\Drupal\cfr_wiki\Client\WikiClient'
+    arguments: ['@http_client', '@endpoint_uri']
