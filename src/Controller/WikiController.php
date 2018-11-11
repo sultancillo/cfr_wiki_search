@@ -52,17 +52,19 @@ class WikiController extends ControllerBase {
     $search_results = [];
     if ($search_text) {
       $results = $this->wikiClient->search($search_text, $results_per_page, $page);
-      foreach ($results->query->search as $key => $search_result) {
-        $search_results[] = [
-          '#theme' => 'wiki_search_result',
-          '#title' => $search_result->title,
-          '#summary' => $search_result->snippet,
-          '#link' => $search_result->uri,
-        ];
+      if (!empty($results)) {
+        foreach ($results->query->search as $key => $search_result) {
+          $search_results[] = [
+            '#theme' => 'wiki_search_result',
+            '#title' => $search_result->title,
+            '#summary' => $search_result->snippet,
+            '#link' => $search_result->uri,
+          ];
+        }
+        $total_hits = $results->query->searchinfo->totalhits;
+        $pages = ceil($total_hits / $results_per_page);
+        pager_default_initialize($total_hits, $results_per_page);
       }
-      $total_hits = $results->query->searchinfo->totalhits;
-      $pages = ceil($total_hits / $results_per_page);
-      pager_default_initialize($total_hits, $results_per_page);
     }
     $search_form = $this->formBuilder()->getForm('Drupal\cfr_wiki\Form\WikiSearchForm');
     $content['results'] = [
