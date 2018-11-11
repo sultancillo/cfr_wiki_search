@@ -33,6 +33,10 @@ class WikiClient {
       $url = $this->endpointUri . '?action=query&list=search&utf8=&formatversion=2&prop=info&format=json&srwhat=text&inprop=url&srsearch=' . $search_text . '&sroffset=' . $offset;
       $request = $this->httpClient->request('GET', $url);
       $results = json_decode($request->getBody());
+      foreach ($results->query->search as $key => $result) {
+        $article_uri = $this->get_page_uri($result->pageid);
+        $results->query->search[$key]->uri = $article_uri;
+      }
     }
     catch (RequestException $exception) {
       drupal_set_message(t('Failed to complete Wikimedia API request "%error"', ['%error' => $exception->getMessage()]), 'error');

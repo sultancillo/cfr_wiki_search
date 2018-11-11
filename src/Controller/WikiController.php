@@ -30,7 +30,7 @@ class WikiController extends ControllerBase {
   /**
    *
    */
-  public function wiki_search($search_text) {
+  public function wikiSearch($search_text) {
     $results_per_page = 10;
     $page = \Drupal::request()->query->get('page');
     if (!is_numeric($page)) {
@@ -44,22 +44,18 @@ class WikiController extends ControllerBase {
     if ($search_text) {
       $results = $this->wikiClient->search($search_text, $results_per_page, $page);
       foreach ($results->query->search as $key => $search_result) {
-        $url = 'https://en.wikipedia.org/w/api.php?action=query&prop=info&inprop=url&format=json&pageids=' . $search_result->pageid;
-        $page_request = $client->get($url);
-        $page_result = json_decode($page_request->getBody());
-        $page_url = $this->wikiClient->get_page_uri($search_result->pageid);
         $search_results[] = [
           '#theme' => 'wiki_search_result',
           '#title' => $search_result->title,
           '#summary' => $search_result->snippet,
-          '#link' => $page_url,
+          '#link' => $search_result->uri,
         ];
       }
+      $total_hits = $results->query->searchinfo->totalhits;
+      $pages = ceil($total_hits / $results_per_page);
+      pager_default_initialize($total_hits, $results_per_page);
     }
     $search_form = $this->formBuilder()->getForm('Drupal\cfr_wiki\Form\WikiSearchForm');
-    $total_hits = $results->query->searchinfo->totalhits;
-    $pages = ceil($total_hits / $results_per_page);
-    pager_default_initialize($total_hits, $results_per_page);
     $content['results'] = [
       '#theme' => 'wiki_search_results',
       '#results' => $search_results,
@@ -73,3 +69,5 @@ class WikiController extends ControllerBase {
   }
 
 }
+
+

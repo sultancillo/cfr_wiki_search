@@ -1,8 +1,9 @@
 cfr_wiki.search:
   path: 'wiki/{search_text}'
   defaults:
-    _controller: '\Drupal\cfr_wiki\Controller\WikiController::wiki_search'
+    _controller: '\Drupal\cfr_wiki\Controller\WikiController::wikiSearch'
     search_text: ''
+    _title: 'Wikipedia Search'
   requirements:
     search_text: .+
     _permission: 'access content'

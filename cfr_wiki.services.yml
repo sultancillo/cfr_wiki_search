@@ -5,4 +5,4 @@ services:
       - { name: path_processor_inbound, priority: 250 }
   cfr_wiki.client:
     class: '\Drupal\cfr_wiki\Client\WikiClient'
-    arguments: ['@http_client', '@endpoint_uri']
+    arguments: ['@http_client']

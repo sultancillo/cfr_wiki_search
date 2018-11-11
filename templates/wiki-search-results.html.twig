@@ -1,10 +1,27 @@
+<div class="wiki-search-intro">
+{% trans %}
+    <p>This page displays the Wikipedia English search results for the phrase entered in the form search below.</p>
+    <p>If a text is appended after the "/wiki" in the url the search results for that text are displayed.</p>
+    <p>When no text is appended to the url a search phrase must be set on the box and submitted to display the results</p>
+{% endtrans %}
+</div>
+
 <div class="wiki-search-form">
   {{ search_form }}
 </div>
 
-<h2> Search Results for <span class="search-text">{{ search_text }}</span>:</h2>
-<div class="wiki-search-results">
-{% for search_result in results %}
-    {{ search_result }}
-{% endfor %}
-</div>
+
+
+{% if results %}
+  <h2>Search Results for <span class="search-text">"{{ search_text }}"</span>:</h2>
+  <div class="wiki-search-results">
+  {% for search_result in results %}
+      {{ search_result }}
+  {% endfor %}
+  </div>
+{% else %}
+  {% if search_text %}
+    <h2>No Search Results for <span class="search-text">"{{ search_text }}"</span></h2>
+  {% endif %}
+{% endif %}
+

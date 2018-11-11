@@ -25,7 +25,14 @@ Installation instructions:
 ==========================
 - Drop module directory into the modules/custom directory in Drupal.
 - Activate the module.
+- Navigate to "/wiki"
 
 Known Issues:
 =============
 Wikipedia has disabled title searching on their wikimedia install, so a full text search is being performed instead, including titles.
+
+
+To Do
+=====
+
+Provide the user a way to specify the quantity of results per page, currently fixed at 10.
