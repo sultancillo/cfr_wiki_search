@@ -6,9 +6,12 @@
 {% endtrans %}
 </div>
 
-<div class="wiki-search-form">
-  {{ search_form }}
-</div>
+{% if search_form %}
+  <div class="wiki-search-form">
+    {{ search_form }}
+  </div>
+{% endif %}
+
 
 
 
