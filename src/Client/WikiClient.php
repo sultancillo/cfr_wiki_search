@@ -43,8 +43,22 @@ class WikiClient {
     if ($search_text != '' and $results_per_page > 0 and $page >= 0) {
       try {
         $offset = $results_per_page * $page;
-        $url = $this->endpointUri . '?action=query&list=search&utf8=&formatversion=2&prop=info&format=json&srwhat=text&inprop=url&srsearch=' . $search_text . '&sroffset=' . $offset;
-        $request = $this->httpClient->request('GET', $url);
+        $url = $this->endpointUri;
+        $query = [
+          'query' => [
+            'action' => 'query',
+            'list' => 'search',
+            'utf8' => '',
+            'formatversion' => '2',
+            'prop' => 'info',
+            'format' => 'json',
+            'srwhat' => 'text',
+            'srlimit' => $results_per_page,
+            'srsearch' => $search_text,
+            'sroffset' => $offset,
+          ],
+        ];
+        $request = $this->httpClient->request('GET', $url, $query);
         $results = json_decode($request->getBody());
         if (isset($results->query->search)) {
           foreach ($results->query->search as $key => $result) {
@@ -56,7 +70,6 @@ class WikiClient {
       catch (RequestException $exception) {
         drupal_set_message(t('Failed to complete Wikimedia API request "%error"', ['%error' => $exception->getMessage()]), 'error');
         \Drupal::logger('cfr_wiki')->error('Failed to complete Wikipedia API request "%error"', ['%error' => $exception->getMessage()]);
-        return FALSE;
       }
     }
     return $results;
@@ -66,11 +79,21 @@ class WikiClient {
    * Get the wikimedia page uri for a page id.
    */
   public function getPageUri($page_id) {
-    $uri = FALSE;
+    $uri = '';
     if ($page_id != '') {
       try {
-        $url = $this->endpointUri . '?action=query&prop=info&inprop=url&format=json&pageids=' . $page_id;
-        $request = $this->httpClient->request('GET', $url);
+        $url = $this->endpointUri;
+        $query = [
+          'query' => [
+            'action' => 'query',
+            'prop' => 'info',
+            'inprop' => 'url',
+            'utf8' => '',
+            'format' => 'json',
+            'pageids' => $page_id,
+          ],
+        ];
+        $request = $this->httpClient->request('GET', $url, $query);
         $results = json_decode($request->getBody());
         if (isset($results->query->pages->{$page_id}->fullurl)) {
           $uri = $results->query->pages->{$page_id}->fullurl;
@@ -79,7 +102,6 @@ class WikiClient {
       catch (RequestException $exception) {
         drupal_set_message(t('Failed to complete Wikimedia API request "%error"', ['%error' => $exception->getMessage()]), 'error');
         \Drupal::logger('cfr_wiki')->error('Failed to complete Wikipedia API request "%error"', ['%error' => $exception->getMessage()]);
-        return FALSE;
       }
     }
 
