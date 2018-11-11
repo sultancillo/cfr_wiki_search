@@ -18,9 +18,6 @@ class WikiSearchForm extends FormBase {
   /**
    * Build the WikiSearch form.
    *
-   * A build form method constructs an array that defines how markup and
-   * other form elements are included in an HTML form.
-   *
    * @param array $form
    *   Default form array structure.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
@@ -60,10 +57,6 @@ class WikiSearchForm extends FormBase {
   /**
    * Getter method for Form ID.
    *
-   * The form ID is used in implementations of hook_form_alter() to allow other
-   * modules to alter the render array built by this form controller. It must be
-   * unique site wide. It normally starts with the providing module's name.
-   *
    * @return string
    *   The unique ID of the form defined by this class.
    */
@@ -72,9 +65,7 @@ class WikiSearchForm extends FormBase {
   }
 
   /**
-   * Implements a form submit handler.
-   *
-   * The submitForm method is the default method called for any submit elements.
+   * Implements the Wikipedia search form submit handler.
    *
    * @param array $form
    *   The render array of the currently built form.

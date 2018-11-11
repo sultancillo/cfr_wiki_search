@@ -6,12 +6,14 @@ use Drupal\Core\PathProcessor\InboundPathProcessorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Implement InboundPathProcessorInterface to allow slashes on incoming parameters.
+ * Implement InboundPathProcessorInterface.
+ *
+ * This allows slashes on incoming parameters on Wikipedia search pages.
  */
 class WikiSearchPathProcessor implements InboundPathProcessorInterface {
 
   /**
-   * Process inbound path and substitute forward slashes with colon for wiki search.
+   * Process inbound path and urlencode the parameter.
    */
   public function processInbound($path, Request $request) {
     if (strpos($path, '/wiki/') === 0) {

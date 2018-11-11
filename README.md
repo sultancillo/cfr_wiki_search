@@ -34,5 +34,5 @@ Wikipedia has disabled title searching on their wikimedia install, so a full tex
 
 To Do
 =====
-
 Provide the user a way to specify the quantity of results per page, currently fixed at 10.
+Provide a way to specify which wikimedia instance to search currently fixed to Wikipedia English.

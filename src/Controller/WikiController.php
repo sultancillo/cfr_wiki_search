@@ -7,20 +7,26 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\cfr_wiki\Client\WikiClient;
 
 /**
- *
+ * Wikipedia search page controller.
  */
 class WikiController extends ControllerBase {
 
   protected $wikiClient;
 
   /**
+   * Dependency injection through the constructor.
    *
+   * @param Drupal\cfr_wiki\Client\WikiClient $client
+   *   Wikimedia Search Client Service.
    */
   public function __construct(WikiClient $client) {
     $client->setApiEndpoint('https://en.wikipedia.org/w/api.php');
     $this->wikiClient = $client;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('cfr_wiki.client')
@@ -28,7 +34,10 @@ class WikiController extends ControllerBase {
   }
 
   /**
+   * Build the search page as a render array.
    *
+   * @param string $search_text
+   *   The text to search.
    */
   public function wikiSearch($search_text) {
     $results_per_page = 10;
@@ -69,5 +78,3 @@ class WikiController extends ControllerBase {
   }
 
 }
-
-

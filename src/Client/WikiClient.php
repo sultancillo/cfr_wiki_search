@@ -6,7 +6,9 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 
 /**
+ * Wikimedia search API Client Service.
  *
+ * This class can issue search requests to wikimedia installs via their API.
  */
 class WikiClient {
   protected $httpClient;
@@ -20,12 +22,15 @@ class WikiClient {
     $this->httpClient = $http_client;
   }
 
+  /**
+   * Set the endpoint for the Wikimedia instance API.
+   */
   public function setApiEndPoint($endpoint_uri) {
     $this->endpointUri = $endpoint_uri;
   }
 
   /**
-   * { @inheritdoc }.
+   * Perform the search action and return the results.
    */
   public function search($search_text, $results_per_page, $page) {
     try {
@@ -34,7 +39,7 @@ class WikiClient {
       $request = $this->httpClient->request('GET', $url);
       $results = json_decode($request->getBody());
       foreach ($results->query->search as $key => $result) {
-        $article_uri = $this->get_page_uri($result->pageid);
+        $article_uri = $this->getPageUri($result->pageid);
         $results->query->search[$key]->uri = $article_uri;
       }
     }
@@ -46,7 +51,10 @@ class WikiClient {
     return $results;
   }
 
-  public function get_page_uri($page_id) {
+  /**
+   * Get the wikimedia page uri for a page id.
+   */
+  public function getPageUri($page_id) {
     try {
       $url = $this->endpointUri . '?action=query&prop=info&inprop=url&format=json&pageids=' . $page_id;
       $request = $this->httpClient->request('GET', $url);
